@@ -1,0 +1,20 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: mfg-tracker-db
+    environment:
+      POSTGRES_USER: mfg
+      POSTGRES_PASSWORD: mfg
+      POSTGRES_DB: mfg_tracker
+    ports:
+      - "5433:5432"
+    volumes:
+      - mfg-tracker-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mfg -d mfg_tracker"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  mfg-tracker-data:
